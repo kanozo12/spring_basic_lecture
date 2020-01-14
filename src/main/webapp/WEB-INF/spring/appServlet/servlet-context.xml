@@ -9,10 +9,8 @@
 
 	<!-- DispatcherServlet Context: 서블릿 디스패쳐가 요청을 처리하는 구조속에서 필요한 빈을 선언하는 곳 -->
 	
-	
 	<!-- 스프링의 @Controller 를 비롯한 다양한 애노테이션이 동작할 수 있도록 Enalble 해줌-->
-	<annotation-driven />
-	
+	<annotation-driven/>
 	<!-- 웹앱루트/resources 로 오는 모든 요청을 /resources 경로로 연결해준다. -->
 	
 
@@ -27,5 +25,22 @@
 	
 	<!-- 전역 예외 처리기 -->
 	<beans:bean class="net.gondr.exception.CommonExceptionHandler"/>
+	
+	<!-- 인터셉터 등록부분 -->
+	<beans:bean id="auth" class="net.gondr.interceptor.AuthInterceptor"/>
+	
+	<interceptors>
+		<interceptor>
+			<mapping path="/user/info"/>
+			<beans:ref bean="auth"/>
+		</interceptor>
+	</interceptors>
+	
 </beans:beans>
+
+
+
+
+
+
 
