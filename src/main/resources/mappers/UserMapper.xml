@@ -8,7 +8,7 @@
 		INSERT INTO s_users (userid, username, password) 
 		VALUES ( #{userid}, #{username}, #{password})
 	</insert>
-	<select id="selectUser">
-		
+	<select id="selectUser" resultType="net.gondr.domain.UserVO">
+		SELECT * FROM s_users WHERE userid = #{userid}
 	</select>
 </mapper>

@@ -6,4 +6,5 @@ public interface UserDAO {
 	
 	public void insertUser(UserVO user);
 	
+	public UserVO selectUser(String userid);
 }

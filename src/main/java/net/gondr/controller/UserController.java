@@ -4,14 +4,17 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import net.gondr.dao.UserDAO;
 import net.gondr.domain.GondrVO;
 import net.gondr.domain.LoginDTO;
 import net.gondr.domain.UserVO;
@@ -20,6 +23,9 @@ import net.gondr.validator.GondrValidator;
 @Controller
 @RequestMapping("/user/")
 public class UserController {
+	@Autowired
+	private UserDAO dao;
+
 	@RequestMapping(value = "regist", method = RequestMethod.GET)
 	public String viewRegistPage() {
 		return "user/regist";
@@ -85,17 +91,10 @@ public class UserController {
 		return "user/info";
 	}
 
-	@RequestMapping(value = "data", method = RequestMethod.GET)
-	public @ResponseBody UserVO getUserData() {
-		//데이터베이스에 접근해서
-		//지정된 아이디를 USERVO를 가져옴
-		//그 녀석을 리턴
-		
-		UserVO temp = new UserVO();
-		temp.setUserid("임시아이디");
-		temp.setPassword("1234");
-		temp.setUsername("임시 아이디");
-		
-		return temp;
+	@RequestMapping(value = "data/{userid}", method = RequestMethod.GET)
+	public @ResponseBody UserVO getUserData(@PathVariable String userid) {
+		UserVO user = dao.selectUser(userid);
+		return user;
 	}
+
 }
